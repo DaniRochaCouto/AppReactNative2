@@ -11,4 +11,3 @@ const HomeController = () => {
     );
 };
 
-export default registerRootComponent(HomeController);

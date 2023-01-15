@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input } from 'react-native-elements';
 import { BottomButton, BottomScreen, FrontImageBackground, LabelLogin, LoginBox, 
-    LogoDiv, MainContainer, StyledButton, StyledImageBackground, TopScreen } from '../Cadastro/CadastroStyles';
+    LogoDiv, MainContainer, StyledButton, StyledButton2, StyledImageBackground, TopScreen } from '../Cadastro/CadastroStyles';
 import axios from 'axios';
 
 export default function LoginView() {
@@ -35,18 +35,6 @@ export default function LoginView() {
             </TopScreen>
             <BottomScreen>
               <LoginBox>
-                <LabelLogin>Nome</LabelLogin>
-                <Input
-                  placeholder="Jose da Silva"
-                  placeholderTextColor={"#999"}
-                  autoComplete="name"
-                />
-                <LabelLogin>Endereço</LabelLogin>
-                <Input
-                  placeholder="Rua da Cidade"
-                  placeholderTextColor={"#999"}
-                  autoComplete="postal-address"
-                />
                 <LabelLogin>Email</LabelLogin>
                 <Input
                   placeholder="email@email.com"
@@ -79,6 +67,13 @@ export default function LoginView() {
                   />
                 </BottomButton>
               </LoginBox>
+              
+              <BottomButton>
+                  <StyledButton2 onPress = {handleLogin}
+                    title="Cadastro"
+                  />
+                </BottomButton>
+              
             </BottomScreen>
           </FrontImageBackground>
         </StyledImageBackground>

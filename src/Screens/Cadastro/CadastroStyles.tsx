@@ -68,6 +68,20 @@ export const StyledButton = styled(Button).attrs({
   },
 })``;
 
+export const StyledButton2 = styled(Button).attrs({
+  buttonStyle: {
+    backgroundColor: "red",
+    borderRadius: 10,
+    width: "100%",
+    heigth: "70%"
+  },
+  containerStyle: {
+    width: "70%",
+    height: "70%",
+    
+  },
+})``;
+
 export const StyledImageBackground = styled(ImageBackground)`
   flex: 1;
   justify-content: center;
