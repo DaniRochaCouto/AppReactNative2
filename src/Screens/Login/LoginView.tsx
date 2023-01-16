@@ -3,8 +3,12 @@ import { Input } from 'react-native-elements';
 import { BottomButton, BottomScreen, FrontImageBackground, LabelLogin, LoginBox, 
     LogoDiv, MainContainer, StyledButton, StyledButton2, StyledImageBackground, TopScreen } from '../Cadastro/CadastroStyles';
 import axios from 'axios';
+import { RootStackParamList } from '../../Routes/RoutesController';
+import { StackScreenProps } from "@react-navigation/stack";
 
-export default function LoginView() {
+type iProps = StackScreenProps<RootStackParamList, "Login">;
+
+export default function LoginView({ route, navigation }:iProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleLogin = async () => {
@@ -69,7 +73,7 @@ export default function LoginView() {
               </LoginBox>
               
               <BottomButton>
-                  <StyledButton2 onPress = {handleLogin}
+                  <StyledButton2 onPress = {() => navigation.navigate("Cadastro")}
                     title="Cadastro"
                   />
                 </BottomButton>

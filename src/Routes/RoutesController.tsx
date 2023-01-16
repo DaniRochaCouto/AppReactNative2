@@ -3,7 +3,7 @@ import LoginView from '../Screens/Login/LoginView'
 import CadastroView from '../Screens/Cadastro/CadastroView';
 //import App from '../../../App';
 import { registerRootComponent } from 'expo';
-import "react-native-gesture-handler";
+//import "react-native-gesture-handler";
 
 import { Button, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -24,7 +24,7 @@ export type RootStackParamList = {
   };
   
   const Stack = createStackNavigator<RootStackParamList>();
-  const Drawer = createDrawerNavigator();
+  //const Drawer = createDrawerNavigator();
 
   function RoutesController() {
     const StackHome = () => {
@@ -40,6 +40,11 @@ export type RootStackParamList = {
             component={CadastroView}
             options={{ title: "Cadastro" }}
           />
+          {/* <Stack.Screen
+            name="Produtos"
+            component={ProdutosView}
+            options={{ title: "Produtos" }}
+          /> */}
         </Stack.Navigator>
       );
     };
