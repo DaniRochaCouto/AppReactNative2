@@ -9,8 +9,10 @@ import { Button, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import ProdutosView from '../Screens/Produtos/ProdutosView';
+import DetailsView from '../Screens/Detail/DetailsView';
 //import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
+import {getToken  } from '../../src/Utils/Utils';
 
 //import HomeController from "../Screens/Home/HomeController";
 //import DetailController from "../Screens/Detail/DetailController";
@@ -18,18 +20,26 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 export type RootStackParamList = {
     Login: undefined;
     Cadastro: undefined;
-   // Produtos: undefined;
+    Produtos: undefined;
    // Favoritos: undefined;
-   // Details: { itemID: number; info: string };
+    Detalhes: { itemID: string; info: string };
   };
   
   const Stack = createStackNavigator<RootStackParamList>();
   //const Drawer = createDrawerNavigator();
 
   function RoutesController() {
+
+    const token = undefined;
+    //const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbml0ZXN0ZUBnbWFpbC5jb20iLCJ1c2VySUQiOiI2M2MzNGExNjZhZmI5ODU2ZjAwMWM1MmEiLCJpYXQiOjE2NzQxNTM4OTgsImV4cCI6MTY3NDE1NzQ5OH0.NLbEWxfcBTZE_04K37U9MkGwsDTyrEJv0SMprrbw16U';
+
+    //const token = getToken();
     const StackHome = () => {
+      
       return (
-        <Stack.Navigator>
+        token === undefined ? (
+        <>
+          <Stack.Navigator>
           <Stack.Screen
             name="Login"
             component={LoginView}
@@ -40,11 +50,38 @@ export type RootStackParamList = {
             component={CadastroView}
             options={{ title: "Cadastro" }}
           />
-          {/* <Stack.Screen
+          </Stack.Navigator>
+
+        </>
+           ) : (
+          <>
+           <Stack.Navigator>
+          <Stack.Screen
             name="Produtos"
             component={ProdutosView}
             options={{ title: "Produtos" }}
-          /> */}
+          />
+          </Stack.Navigator> 
+          
+          </>
+          )
+      );
+    };
+
+    const StackProdutos = () => {
+      
+      return (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Produtos"
+            component={ProdutosView}
+            options={{ title: "Produtos" }}
+          />
+          <Stack.Screen
+            name="Detalhes"
+            component={DetailsView}
+            options={{ title: "Detalhes" }}
+          />
         </Stack.Navigator>
       );
     };
@@ -52,6 +89,7 @@ export type RootStackParamList = {
     return (
        <NavigationContainer>
            <StackHome />
+           
        </NavigationContainer>
    );
 
