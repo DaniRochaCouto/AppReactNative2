@@ -1,72 +1,88 @@
-import React, { useMemo } from 'react';
-import { View, TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
 
-
-
-
-
-export default function ProdutosLista { name, price, favorite, aoPressionar }) {
-    
-
-    return <TouchableOpacity 
-            style={estilos.cartao}
-            onPress={aoPressionar}
+  import React from "react";
+  import {
+    FlatList,
+    View,
+  } from "react-native";
+  
+  import { StackNavigationProp } from "@react-navigation/stack";
+  import { RootStackParamList } from "../../Routes/RoutesController";
+  //import DrawerMenu from "../../Components/DrawerMenu/DrawerMenu";
+  import Colors from "../../Styles/Colors";
+  import IProdutos  from "../../Interfaces/IProdutos";
+  
+  import {
+    ContainerItem,
+    MainSafeAreaView,
+    StyledActivityIndicator,
+    TextNameStyle,
+    TextsView,
+    TextTitle,
+    TextDetail,
+    Separator,
+    StyledImage,
+  } from "./ProdutosStyles";
+  
+  type iProps = {
+    navigation: StackNavigationProp<RootStackParamList, "Produtos">;
+    dataConnection: IProdutos[];
+    isLoading: boolean;
+    goToDetail: (item: IProdutos) => void;
+  };
+  
+  const ProdutosLista = ({ navigation, dataConnection, isLoading, goToDetail }:iProps) => {
+    console.log(dataConnection);
+    const RenderItem = ({item}: {item: IProdutos}) => {
+      console.log(item)
+      return (
+        <ContainerItem
+          onPress={() => goToDetail(item)}
         >
-        <Image source={imagem} style={estilos.imagem} accessibilityLabel={nome} />
-        <View style={estilos.informacoes}>
-            <View>
-                <Text style={estilos.nome}>{ nome }</Text>
-                <Estrelas 
-                    quantidade={estrelas}
-                />
-            </View>
-            <Text style={estilos.distancia}>{ distanciaTexto }</Text>
-        </View>
-    </TouchableOpacity>
-}
-
-const estilos = StyleSheet.create({
-    cartao: {
-        backgroundColor: '#F6F6F6',
-        marginVertical: 8,
-        marginHorizontal: 16,
-        borderRadius: 6,
-        flexDirection: "row",
-
-        // Android
-        elevation: 4,
-
-        // iOS
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
-    },
-    imagem: {
-        width: 48,
-        height: 48,
-        borderRadius: 6,
-        marginVertical: 16,
-        marginLeft: 16,
-    },
-    informacoes: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginLeft: 8,
-        marginVertical: 16,
-        marginRight: 16,
-    },
-    nome: {
-        fontSize: 14,
-        lineHeight: 22,
-        fontWeight: 'bold',
-    },
-    distancia: {
-        fontSize: 12,
-        lineHeight: 19,
-    },
-});
+          <>
+            <TextsView>
+              
+              <View>
+                <TextNameStyle>
+                  <TextTitle>
+                    {item.name}  
+                  </TextTitle>
+                </TextNameStyle>
+                <TextNameStyle>
+                  <TextDetail>
+                    {item.price}  
+                  </TextDetail>
+                </TextNameStyle>
+                <TextNameStyle>
+                  <TextDetail>Favorito: {item.favorite}</TextDetail>
+                </TextNameStyle>
+              </View>
+            </TextsView>
+            <Separator />
+          </>
+        </ContainerItem>
+      );
+    };
+  
+    let loadingBox = null;
+    if (isLoading) {
+      loadingBox = (
+        <StyledActivityIndicator
+          size="large"
+          color={Colors.PrimaryDark}
+        />
+      );
+    }
+    return (
+      <MainSafeAreaView>
+        {/* <DrawerMenu /> */}
+        {loadingBox}
+        <FlatList
+          data={dataConnection}
+          renderItem={({item}: { item: IProdutos}) => <RenderItem item={item} />}
+          keyExtractor={(item: IProdutos) => item._id.toString()}
+        />
+      </MainSafeAreaView>
+    );
+  };
+  
+  export default ProdutosLista;

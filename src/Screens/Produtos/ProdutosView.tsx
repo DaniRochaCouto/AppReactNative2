@@ -1,7 +1,7 @@
 
 
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, Text, TouchableHighlight, View} from 'react-native';
+import {ActivityIndicator, FlatList, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 
@@ -19,11 +19,16 @@ import {
   TextDetail,
   Separator,
   StyledImage,
+  TextBlock,
+  TextBoxContainer
 } from "./ProdutosStyles";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ProdutosLista from './ProdutosLista';
+import estilos from './estilos';
+import { Button } from 'react-native-elements';
 
-type iProps = {
+
+ type iProps = {
   navigation: StackScreenProps<RootStackParamList, "Produtos">;
   dataConnection: IProdutos[];
   isLoading: boolean;
@@ -36,46 +41,7 @@ const ProdutosView = ({navigation, route}:iProps) => {
   const [isLoading, setLoading] = useState(true);
   
   
-  const RenderItem = ({item}: {item: IProdutos}) => {
-    console.log('Dani', item)
-    function goToDetail(item: IProdutos): void {
-       {
-        navigation.push("Detalhes", {
-          itemID: item._id,
-          info: JSON.stringify(item),
-        });
-      };
-    }
-
-    return (
-      <ContainerItem
-        onPress={() => goToDetail(item)}
-      >
-        <>
-          <TextsView>
-            
-            <View>
-              <TextNameStyle>
-                <TextTitle>
-                  {item.name} 
-                </TextTitle>
-              </TextNameStyle>
-              <TextNameStyle>
-                <TextDetail>
-                  {item.price} 
-                </TextDetail>
-              </TextNameStyle>
-              <TextNameStyle>
-                <TextDetail>Favorito: {item.favorite}</TextDetail>
-              </TextNameStyle>
-            </View>
-          </TextsView>
-          <Separator />
-        </>
-      </ContainerItem>
-    );
-  };
-
+  
   const getProdutos = async () => {
     //const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbml0ZXN0ZUBnbWFpbC5jb20iLCJ1c2VySUQiOiI2M2MzNGExNjZhZmI5ODU2ZjAwMWM1MmEiLCJpYXQiOjE2NzQzMTYyMTAsImV4cCI6MTY3NDMxOTgxMH0.16evZP1hWOKrVmcS3tjrvfmfplBXWzcVbqh80bkUDHg';
     const token = await getToken();
@@ -90,7 +56,8 @@ const ProdutosView = ({navigation, route}:iProps) => {
       });
       const json = await response.json();
       setData(json.products);
-      console.log(json);
+      
+      
     } catch (error) {
       console.error('Error', error);
     } finally {
@@ -102,6 +69,7 @@ const ProdutosView = ({navigation, route}:iProps) => {
     getProdutos();
     
   }, []);
+  console.log('data: ', data);
   let loadingBox = null;
   if (setLoading === true) {
     loadingBox = (
@@ -113,6 +81,7 @@ const ProdutosView = ({navigation, route}:iProps) => {
   }
 
   
+  
 
   return (
     /* <View style={{flex: 1, padding: 24}}>
@@ -122,13 +91,29 @@ const ProdutosView = ({navigation, route}:iProps) => {
       <SafeAreaView>
         {loadingBox}
         <FlatList
+          
           data={data}
           keyExtractor={(item: IProdutos) => item._id.toString()}
           renderItem={({item}) => (
-            <Text>
-              {item.name}, {item.price}
+            <View style={estilos.item}>
+                  
+                  <Text style={estilos.repositorioNome}>{item.name}</Text>
+                  <Text style={estilos.repositorioPreco}>Valor: R$ {item.price}</Text>
+                  <Text style={estilos.repositorioData}>Favorito: {item.favorite}</Text>
+                  <Button
+                       onPress={() => navigation.navigate('Detalhes', {
+                        itemID: item._id                        
+                      })}
+                      title="Detalhes"
+                      //color="#0e0947"
+                      
+                  />
+              </View>      
+          
             
-            </Text>
+              
+            
+            
           )} 
          /*  renderItem={({item}: { item: IProdutos}) => <RenderItem item={item} />} */
         />
@@ -138,35 +123,6 @@ const ProdutosView = ({navigation, route}:iProps) => {
   );
 };
 
-/*   useEffect(() => {
-    //const token = getToken(); // Coloq  ue seu token aqui
-    const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmlyb2NoYWNvdXRvQGdtYWlsLmNvbSIsInVzZXJJRCI6IjYzYjMyYzMxMzc2YjBhMTViZWNkOGUzNyIsImlhdCI6MTY3NDE2MDkyMCwiZXhwIjoxNjc0MTY0NTIwfQ.w5tKe3nzd2e5a46TBSoQR9MdY0X3PC_n1JcVmtqrP8U';
 
-        console.log('token no produtos', token);
-    fetch('https://fiap-reactjs-presencial.herokuapp.com/storeProducts/', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then(response => response.json())
-      .then(responseJson => {
-        setData(responseJson);
-        console.log(responseJson.products);
-      }) 
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
-  
-  return (
-    <View>
-      {data ? (
-        <Text>Dados da API: {JSON.stringify(data)}</Text>
-      ) : (
-        <Text>Carregando dados da API...</Text>
-      )}
-    </View>
-  );  
-}; */
 
 export default ProdutosView;
