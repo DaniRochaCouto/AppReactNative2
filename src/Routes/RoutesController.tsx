@@ -12,7 +12,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import ProdutosView from '../Screens/Produtos/ProdutosView';
 import DetailsView from '../Screens/Detail/DetailsView';
 //import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {getToken  } from '../../src/Utils/Utils';
+import {getToken , deleteToken } from '../../src/Utils/Utils';
 
 //import HomeController from "../Screens/Home/HomeController";
 //import DetailController from "../Screens/Detail/DetailController";
@@ -32,14 +32,15 @@ export type RootStackParamList = {
 
     const token = undefined;
     //const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbml0ZXN0ZUBnbWFpbC5jb20iLCJ1c2VySUQiOiI2M2MzNGExNjZhZmI5ODU2ZjAwMWM1MmEiLCJpYXQiOjE2NzQxNTM4OTgsImV4cCI6MTY3NDE1NzQ5OH0.NLbEWxfcBTZE_04K37U9MkGwsDTyrEJv0SMprrbw16U';
-
-    //const token = getToken();
+     deleteToken ();
+    //const token = await getToken();
+    
     const StackHome = () => {
       
       return (
         token === undefined ? (
         <>
-          <Stack.Navigator>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen
             name="Login"
             component={LoginView}
@@ -50,6 +51,11 @@ export type RootStackParamList = {
             component={CadastroView}
             options={{ title: "Cadastro" }}
           />
+          <Stack.Screen
+            name="Produtos"
+            component= {StackProdutos }
+            options={{ title: "Produtos" }}
+          />
           </Stack.Navigator>
 
         </>
@@ -58,7 +64,7 @@ export type RootStackParamList = {
            <Stack.Navigator>
           <Stack.Screen
             name="Produtos"
-            component={ProdutosView}
+            component= {StackProdutos }
             options={{ title: "Produtos" }}
           />
           </Stack.Navigator> 
@@ -73,7 +79,7 @@ export type RootStackParamList = {
       return (
         <Stack.Navigator>
           <Stack.Screen
-            name="Produtos"
+            name="ProdutosLista"
             component={ProdutosView}
             options={{ title: "Produtos" }}
           />
@@ -89,7 +95,7 @@ export type RootStackParamList = {
     return (
        <NavigationContainer>
            <StackHome />
-           
+          
        </NavigationContainer>
    );
 

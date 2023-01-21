@@ -2,6 +2,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, FlatList, Text, TouchableHighlight, View} from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 
 import {getToken} from '../../Utils/Utils'
@@ -20,6 +21,7 @@ import {
   StyledImage,
 } from "./ProdutosStyles";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ProdutosLista from './ProdutosLista';
 
 type iProps = {
   navigation: StackScreenProps<RootStackParamList, "Produtos">;
@@ -32,6 +34,8 @@ const ProdutosView = ({navigation, route}:iProps) => {
   //const [data, setData] = useState(null);
   const [data, setData] = useState<IProdutos[]>([]);
   const [isLoading, setLoading] = useState(true);
+  
+  
   const RenderItem = ({item}: {item: IProdutos}) => {
     console.log('Dani', item)
     function goToDetail(item: IProdutos): void {
@@ -73,9 +77,10 @@ const ProdutosView = ({navigation, route}:iProps) => {
   };
 
   const getProdutos = async () => {
-    const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmlyb2NoYWNvdXRvQGdtYWlsLmNvbSIsInVzZXJJRCI6IjYzYjMyYzMxMzc2YjBhMTViZWNkOGUzNyIsImlhdCI6MTY3NDE2ODEyMywiZXhwIjoxNjc0MTcxNzIzfQ.G8KT0DnpWHpaug5d9ko4V1Se77IQrWeNb_QG8yVoBIk';
+    //const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbml0ZXN0ZUBnbWFpbC5jb20iLCJ1c2VySUQiOiI2M2MzNGExNjZhZmI5ODU2ZjAwMWM1MmEiLCJpYXQiOjE2NzQzMTYyMTAsImV4cCI6MTY3NDMxOTgxMH0.16evZP1hWOKrVmcS3tjrvfmfplBXWzcVbqh80bkUDHg';
+    const token = await getToken();
 
-     
+    console.log('token na produtosView', token);
     try {
       const response = await fetch('https://fiap-reactjs-presencial.herokuapp.com/storeProducts/', {
         method: 'GET',
@@ -87,7 +92,7 @@ const ProdutosView = ({navigation, route}:iProps) => {
       setData(json.products);
       console.log(json);
     } catch (error) {
-      console.error(error);
+      console.error('Error', error);
     } finally {
       setLoading(false);
     }
@@ -106,6 +111,9 @@ const ProdutosView = ({navigation, route}:iProps) => {
       />
     );
   }
+
+  
+
   return (
     /* <View style={{flex: 1, padding: 24}}>
       {isLoading ? (
@@ -121,7 +129,8 @@ const ProdutosView = ({navigation, route}:iProps) => {
               {item.name}, {item.price}
             
             </Text>
-          )}
+          )} 
+         /*  renderItem={({item}: { item: IProdutos}) => <RenderItem item={item} />} */
         />
         </SafeAreaView>
       /* )}

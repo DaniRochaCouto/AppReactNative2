@@ -3,9 +3,12 @@ import { Input } from 'react-native-elements';
 import { BottomButton, BottomScreen, FrontImageBackground, LabelLogin, LoginBox, 
     LogoDiv, MainContainer, StyledButton, StyledButton2, StyledImageBackground, TopScreen } from '../Cadastro/CadastroStyles';
 import axios from 'axios';
-import { RootStackParamList } from '../../Routes/RoutesController';
+import { RootStackParamList, StackProdutos } from '../../Routes/RoutesController';
 import { StackScreenProps } from "@react-navigation/stack";
-import {saveToken, deleteToken} from '../../Utils/Utils'
+import {saveToken, deleteToken} from '../../Utils/Utils';
+
+
+
 type iProps = StackScreenProps<RootStackParamList, "Login">;
 
 export default function LoginView({ route, navigation }:iProps) {
@@ -20,7 +23,7 @@ export default function LoginView({ route, navigation }:iProps) {
       const { token } = response.data;
       console.log('tojen:', token );
 
-      //saveToken(token);
+      saveToken(token);
       navigation.navigate("Produtos")
       // salvar o token em algum lugar, como AsyncStorage ou Redux
     } catch (error) {
