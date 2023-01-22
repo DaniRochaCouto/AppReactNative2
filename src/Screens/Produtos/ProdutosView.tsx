@@ -30,8 +30,8 @@ import { Button } from 'react-native-elements';
 
  type iProps = {
   navigation: StackScreenProps<RootStackParamList, "Produtos">;
-  dataConnection: IProdutos[];
-  isLoading: boolean;
+  //dataConnection: IProdutos[];
+  //isLoading: boolean;
   
 };
  
@@ -99,7 +99,7 @@ const ProdutosView = ({navigation, route}:iProps) => {
                   
                   <Text style={estilos.repositorioNome}>{item.name}</Text>
                   <Text style={estilos.repositorioPreco}>Valor: R$ {item.price}</Text>
-                  <Text style={estilos.repositorioData}>Favorito: {item.favorite}</Text>
+                  <Text style={estilos.repositorioData}> {item.favorite? "Favorito" : "Não favorito"}</Text>
                   <Button
                        onPress={() => navigation.navigate('Detalhes', {
                         itemID: item._id                        

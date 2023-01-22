@@ -33,8 +33,8 @@ export type RootStackParamList = {
     
   function RoutesController() {
 
-    //const token = undefined;
-    const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbml0ZXN0ZUBnbWFpbC5jb20iLCJ1c2VySUQiOiI2M2MzNGExNjZhZmI5ODU2ZjAwMWM1MmEiLCJpYXQiOjE2NzQxNTM4OTgsImV4cCI6MTY3NDE1NzQ5OH0.NLbEWxfcBTZE_04K37U9MkGwsDTyrEJv0SMprrbw16U';
+    const token = undefined;
+    //const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbml0ZXN0ZUBnbWFpbC5jb20iLCJ1c2VySUQiOiI2M2MzNGExNjZhZmI5ODU2ZjAwMWM1MmEiLCJpYXQiOjE2NzQxNTM4OTgsImV4cCI6MTY3NDE1NzQ5OH0.NLbEWxfcBTZE_04K37U9MkGwsDTyrEJv0SMprrbw16U';
     // deleteToken ();
     //const token = await getToken();
     const StackHome = () => {
