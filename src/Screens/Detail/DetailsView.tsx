@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 import { Button } from 'react-native-elements';
+import axios from 'axios';
 type iProps =  StackScreenProps<RootStackParamList, "Detalhes">;
 //itemID: string;
 //};
@@ -19,7 +20,7 @@ const DetailsView = ({ navigation, route }:iProps) => {
 
   const [data, setData] = useState<IProdutos>( );
   const [isLoading, setLoading] = useState(true);
-
+  const [favo, setFavo] = useState(false);
   const getProduto = async () => {
     //const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbml0ZXN0ZUBnbWFpbC5jb20iLCJ1c2VySUQiOiI2M2MzNGExNjZhZmI5ODU2ZjAwMWM1MmEiLCJpYXQiOjE2NzQzMTYyMTAsImV4cCI6MTY3NDMxOTgxMH0.16evZP1hWOKrVmcS3tjrvfmfplBXWzcVbqh80bkUDHg';
     const token = await getToken();
@@ -56,28 +57,29 @@ const DetailsView = ({ navigation, route }:iProps) => {
   }, []);
 
 
-  console.log('data detalhes: ', data);
+  //console.log('data detalhes: ', data);
 
-    
+     
     function favoritaProduto(productId: { productID: any; }): void {
-
+        
         const favProduto = async () => {
             //const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbml0ZXN0ZUBnbWFpbC5jb20iLCJ1c2VySUQiOiI2M2MzNGExNjZhZmI5ODU2ZjAwMWM1MmEiLCJpYXQiOjE2NzQzMTYyMTAsImV4cCI6MTY3NDMxOTgxMH0.16evZP1hWOKrVmcS3tjrvfmfplBXWzcVbqh80bkUDHg';
         
-        console.log("productId:", itemID)
+        console.log("productId:", productId)
+        console.log("itemID:", itemID)
         
         const token = await getToken();
         console.log('token na favProduto', token);    
-            try {
+            /* try {
                const response = await fetch(`https://fiap-reactjs-presencial.herokuapp.com/storeProducts/manageFavorite`, {
                 method: 'POST',
                 headers: {
                   Authorization: `Bearer ${token}`
                 },
-                body:JSON.stringify({
-                   productId
-                  })
-             
+                 body:JSON.stringify({
+                   itemID, key: "productID", Value: itemID
+                  }) 
+                
               });
               const json = await response.json();
               //setData(json.product);
@@ -87,10 +89,38 @@ const DetailsView = ({ navigation, route }:iProps) => {
               console.error('Error', error);
             } finally {
               setLoading(false);
-            }
-          };  
+            } */
+
+            try {
+
+               // let config = {api.defaults.headers.authorization = `Bearer ${token}`}
+               const config ={
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                  }
+               }
+               const bodyParameters = {
+                productID: itemID
+                };
+               
+                const response = await axios.post(`https://fiap-reactjs-presencial.herokuapp.com/storeProducts/manageFavorite`, 
+                    bodyParameters,
+                    config
+                    )
+             
+                    
+                   
+                // salvar o token em algum lugar, como AsyncStorage ou Redux
+              } catch (error) {
+                console.error(error);
+             };
+        };
+          
+
+           
         favProduto();
-    }
+        getProduto();
+    };
 
   return (
     <View>
@@ -104,7 +134,7 @@ const DetailsView = ({ navigation, route }:iProps) => {
              onPress={() => favoritaProduto( {
               productID: data._id                        
             })}
-            title="Favoritar Produto"
+            title={data.favorite? "Remover de Favorito" : "Favoritar Produto"}
             //color="#0e0947"
             
         />

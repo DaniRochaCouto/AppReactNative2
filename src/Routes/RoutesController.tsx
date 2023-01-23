@@ -3,7 +3,7 @@ import LoginView from '../Screens/Login/LoginView'
 import CadastroView from '../Screens/Cadastro/CadastroView';
 //import App from '../../../App';
 import { registerRootComponent } from 'expo';
-//import "react-native-gesture-handler";
+import "react-native-gesture-handler";
 
 import { Button, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -14,6 +14,8 @@ import DetailsView from '../Screens/Detail/DetailsView';
 //import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {getToken , deleteToken } from '../../src/Utils/Utils';
 import ProdutosController from '../Screens/Produtos/ProdutosController';
+import AuthLoadingScreen from '../Screens/Login/AuthLoadingScreen';
+import FavoritosView from '../Screens/Favoritos/FavoritosView';
 
 //import HomeController from "../Screens/Home/HomeController";
 //import DetailController from "../Screens/Detail/DetailController";
@@ -22,25 +24,23 @@ export type RootStackParamList = {
     Login: undefined;
     Cadastro: undefined;
     Produtos: undefined;
-   // Favoritos: undefined;
+    Favoritos: undefined;
+    AuthLoadinScreen: undefined;
     Detalhes: { itemID: string  };
   }; 
   
   const Stack = createStackNavigator<RootStackParamList>();
   //const Stack = createStackNavigator();
-  //const Drawer = createDrawerNavigator();
+  const Drawer = createDrawerNavigator();
   
     
   function RoutesController() {
 
-    const token = undefined;
-    //const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbml0ZXN0ZUBnbWFpbC5jb20iLCJ1c2VySUQiOiI2M2MzNGExNjZhZmI5ODU2ZjAwMWM1MmEiLCJpYXQiOjE2NzQxNTM4OTgsImV4cCI6MTY3NDE1NzQ5OH0.NLbEWxfcBTZE_04K37U9MkGwsDTyrEJv0SMprrbw16U';
-    // deleteToken ();
-    //const token = await getToken();
+    deleteToken();
     const StackHome = () => {
       
       return (
-        token === undefined ? (
+         (
         <>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen
@@ -61,17 +61,7 @@ export type RootStackParamList = {
           </Stack.Navigator>
 
         </>
-           ) : (
-          <>
-           <Stack.Navigator>
-          <Stack.Screen
-            name="Produtos"
-            component= {StackProdutos }
-            options={{ title: "Produtos" }}
-          />
-          </Stack.Navigator> 
           
-          </>
           )
       );
     };
@@ -94,14 +84,50 @@ export type RootStackParamList = {
       );
     };
 
-    return (
+    const StackAuthLoading = () => {
+      
+      return (
+         (
+        <>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            name="Loading"
+            component={AuthLoadingScreen}
+            options={{ title: "Loading" }}
+          />
+          <Stack.Screen
+            name="LoginA"
+            component={StackHome}
+            //options={{ title: "Cadastro" }}
+          />
+          <Stack.Screen
+            name="ProdutosA"
+            component= {StackProdutos }
+            options={{ title: "Produtos" }}
+          />
+          </Stack.Navigator>
+
+        </>
+          
+          )
+      );
+    };
+
+     return (
        <NavigationContainer>
-           <StackHome />
+           <StackAuthLoading />
           
        </NavigationContainer>
-   );
-
- };
+   ); 
+   /* return (
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Main">
+        <Drawer.Screen name="Main" component={StackAuthLoading} />
+        <Drawer.Screen name="Favoritos" component={FavoritosView} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
+ */ };
 /* const RoutesController = () => {    
     return (
        // <HomeView />

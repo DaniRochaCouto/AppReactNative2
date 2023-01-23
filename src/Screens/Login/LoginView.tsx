@@ -3,7 +3,7 @@ import { Input } from 'react-native-elements';
 import { BottomButton, BottomScreen, FrontImageBackground, LabelLogin, LoginBox, 
     LogoDiv, MainContainer, StyledButton, StyledButton2, StyledImageBackground, TopScreen } from '../Cadastro/CadastroStyles';
 import axios from 'axios';
-import { RootStackParamList, StackProdutos } from '../../Routes/RoutesController';
+import { RootStackParamList } from '../../Routes/RoutesController';
 import { StackScreenProps } from "@react-navigation/stack";
 import {saveToken, deleteToken} from '../../Utils/Utils';
 
